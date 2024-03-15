@@ -12,14 +12,18 @@ export const GET = (req: NextRequest, res: NextResponse<ResponseData>) => {
       return NextResponse.json({ message: 'Missing "id" parameter!' }, { status: 400 })
     }
 
-    const extension = prisma.extension.findUnique({
+    return prisma.extension.findUnique({
       where: {id: queryParams.get("id")!},
       include: {
         developer: {
           select: {name: true}
         }
       }
+    }).then((extension) => {
+      if (!extension) {
+        return NextResponse.json({ message: "Couldnt find extension with id " + queryParams.get("id")}, { status: 404 })
+      }
+  
+      return NextResponse.json(extension, { status: 200 })
     })
-
-    return NextResponse.json(extension, { status: 200 })
 }

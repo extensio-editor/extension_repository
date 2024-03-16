@@ -78,7 +78,7 @@ export const POST = async (req: NextRequest, res: NextResponse<ResponseData>) =>
       }
     });
 
-    return NextResponse.json(user)
+    return NextResponse.redirect(`${req.nextUrl.protocol}//${req.nextUrl.host}/api/v1/extension?id=${extension.id}`, {status: 301});
   } catch (error) {
     return NextResponse.json({ message: "Something went wrong! " + error }, { status: 500 });
   }

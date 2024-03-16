@@ -1,27 +1,73 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url = env("POSTGRES_PRISMA_URL")
-    directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Extension {
-    id              String  @default(cuid()) @id
-    name            String
-    gitUrl          String
-    developer       User?   @relation(fields: [developerId], references: [id])
-    developerId     String?
+  id          String  @id @default(cuid())
+  name        String
+  gitUrl      String
+  developerId String?
+  developer   User?   @relation(fields: [developerId], references: [id])
 }
 
 model User {
-    id              String  @default(cuid()) @id
-    name            String?
-    email           String  @unique
-    createdAt       DateTime  @default(now()) @map(name: "created_at")
-    updatedAt       DateTime  @updatedAt @map(name: "updated_at")
-    extensions      Extension[]
-    @@map(name: "users")
+  id            String      @id @default(cuid())
+  name          String?
+  email         String      @unique
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  image         String?
+  emailVerified DateTime?
+  extensions    Extension[]
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("users")
+}
+
+model VerificationRequest {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  expires      DateTime
+  accessToken  String?  @unique
+  createdAt    DateTime @default(now())
+  sessionToken String   @unique
+  updatedAt    DateTime @updatedAt
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
 }

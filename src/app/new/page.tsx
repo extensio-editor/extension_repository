@@ -10,7 +10,7 @@ export default function Testing() {
             <input type="text" name="name" id="name" placeholder="JavaScript" className="p-1 pl-2 text-black" required />
             <br />
             <label htmlFor="gitUrl">Git url:</label>
-            <input type="url" name="gitUrl" id="gitUrl" placeholder="https://github.com/extensio-editor/ext-js.git" className="p-1 pl-2 text-black" required />
+            <input type="url" name="gitUrl" id="gitUrl" placeholder="https://github.com/extensio-editor/ext-js" className="p-1 pl-2 text-black" required />
             <br />
             <input type="submit" className="m-auto mt-2 mb-2 border-0 p-2 cursor-pointer rounded-lg ease-linear duration-75 border-white w-min hover:border-2"/>
         </form>

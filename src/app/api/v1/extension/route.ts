@@ -63,9 +63,14 @@ export const POST = async (req: NextRequest, res: NextResponse<ResponseData>) =>
   let extensionName = body.get("name")! as string;
   extensionName = encodeURIComponent(extensionName);
 
+  // Remove .git from url if that was added
+  let extensionGitUrl = body.get("gitUrl")! as string;
+  if (extensionGitUrl.endsWith(".git")) extensionGitUrl = extensionGitUrl.slice(0,-4);
+  if (extensionGitUrl.endsWith(".git/")) extensionGitUrl = extensionGitUrl.slice(0,-5);
+
   // Check if there is not already an extension registered for the same url
   const sameUrlExtension = await prisma.extension.findFirst({
-    where: {gitUrl: body.get("gitUrl")! as string},
+    where: {gitUrl: extensionGitUrl as string},
     select: {
       id: true
     }
@@ -95,7 +100,7 @@ export const POST = async (req: NextRequest, res: NextResponse<ResponseData>) =>
     const extension = await prisma.extension.create({
       data: {
         name: extensionName,
-        gitUrl: body.get("gitUrl")! as string,
+        gitUrl: extensionGitUrl,
         developer: {
           connect: {
             id: user.id

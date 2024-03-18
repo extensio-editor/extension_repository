@@ -24,7 +24,7 @@ export function MainMenuBar() {
     <nav className="space-x-10 flex-grow hidden md:flex">
       <a href="/browse" className="text-lg ease-linear duration-75 hover:text-xl hover:underline">Browse extensions</a>
       <a href="/new" className="text-lg ease-linear duration-75 hover:text-xl hover:underline">Register new extension</a>
-      <a href="https://docs.extensio.xyz/extensions" className="text-lg ease-linear duration-75 hover:text-xl hover:underline">Documentation</a>
+      <a href="https://docs.extensio.xyz/#/ext" className="text-lg ease-linear duration-75 hover:text-xl hover:underline">Documentation</a>
     </nav>
     <div className="block md:hidden cursor-pointer">
         <Image

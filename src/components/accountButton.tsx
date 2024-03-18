@@ -10,6 +10,6 @@ export async function AccountButton() {
     if (signedIn) {
         return <a href="/api/auth/signout" className="text-lg ease-linear duration-75 hover:text-xl hover:underline">Sign out</a>
     } else {
-        return <a href="/api/auth/signin" className="text-lg ease-linear duration-75 hover:text-xl hover:underline">Sign in</a>
+        return <a href="/api/auth/signin/github" className="text-lg ease-linear duration-75 hover:text-xl hover:underline">Sign in</a>
     }
 }
